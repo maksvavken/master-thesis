@@ -133,86 +133,109 @@
 % Language-dependent formatting
 %----------------------------------------------------------------
 
-\ifSLO
-    % SLO: definiraj slovensko besedo za kazalo
-    \renewcommand{\contentsname}{Kazalo}
-	
-    % SLO: naslovnica
-    \input{front_pages/slo/naslovnica} \clearemptydoublepage
-    % SLO: avtorske pravice
-    \input{front_pages/slo/avtorske_pravice2} \clearemptydoublepage
-    % SLO: izjava o avtorstvu (ni več del vezane izdaje, ločena oddaja)
-    % SLO: zahvala
-    \input{front_pages/slo/zahvala} \clearemptydoublepage
-    % SLO: posvetilo
-    \input{front_pages/slo/posvetilo} \clearemptydoublepage
+\ifPRESERNOVA
+    % PRESERNOVA: naslovnica
+    \input{front_pages/PRESERNOVA_title_page} \clearemptydoublepage
 \else
-   % ENG: title page SLO
-    \input{front_pages/slo/naslovnica} \clearemptydoublepage
-    % ENG: title page ENG
-    \input{front_pages/eng/title_page} \clearemptydoublepage
-    % ENG: copyright
-    \input{front_pages/eng/copyright2} \clearemptydoublepage
-    % ENG: declaration of authorship (not part of paper edition, turn in separately)
-    % ENG: acknowledgements
-    \input{front_pages/eng/acknowledgments} \clearemptydoublepage
-    % ENG: dedication
-    \input{front_pages/eng/dedication} \clearemptydoublepage
+    \ifSLO
+        % SLO: definiraj slovensko besedo za kazalo
+        \renewcommand{\contentsname}{Kazalo}
+    	
+        % SLO: naslovnica
+        \input{front_pages/slo/naslovnica} \clearemptydoublepage
+        % SLO: avtorske pravice
+        \input{front_pages/slo/avtorske_pravice2} \clearemptydoublepage
+        % SLO: izjava o avtorstvu (ni več del vezane izdaje, ločena oddaja)
+        % SLO: zahvala
+        \input{front_pages/slo/zahvala} \clearemptydoublepage
+        % SLO: posvetilo
+        \input{front_pages/slo/posvetilo} \clearemptydoublepage
+    \else
+    
+        % ENG: title page ENG
+        \input{front_pages/eng/title_page} \clearemptydoublepage
+        % ENG: title page SLO
+        \input{front_pages/slo/naslovnica} \clearemptydoublepage
+        % ENG: copyright
+        \input{front_pages/eng/copyright2} \clearemptydoublepage
+        % ENG: declaration of authorship (not part of paper edition, turn in separately)
+        % ENG: acknowledgements
+        \input{front_pages/eng/acknowledgments} \clearemptydoublepage
+        % ENG: dedication
+        \input{front_pages/eng/dedication} \clearemptydoublepage
+    \fi
 \fi
 
 %----------------------------------------------------------------
 % SLO: kazalo
 % ENG: contents
 %----------------------------------------------------------------
-\begingroup
-	\hypersetup{colorlinks=true,linkcolor=black}
-	\def\thepage{}
-	\tableofcontents{}
-	\clearemptydoublepage
-\endgroup
 
+\newcommand{\inputcontents}{
+    \begingroup
+    	\hypersetup{colorlinks=true,linkcolor=black}
+    	\def\thepage{}
+    	\tableofcontents{}
+    	\clearemptydoublepage
+    \endgroup
+}
 
-\ifSLO
-    % SLO: seznam kratic
-    \input{front_pages/slo/kratice} \clearemptydoublepage
-    % SLO: glavne strani diplomskega dela
+\newcommand{\inputacronyms}{
+    \ifSLO
+        % SLO: seznam kratic
+        \input{front_pages/slo/kratice} \clearemptydoublepage
+        % SLO: glavne strani diplomskega dela
+    \else
+        % ENG: list of acronmys
+        \input{front_pages/eng/acronyms} \clearemptydoublepage
+    \fi
+}
+
+\newcommand{\inputabstracts}{
+    \frontmatter
+    \pagestyle{frontmatter}
+    \setcounter{page}{1} %
+    \renewcommand{\thepage}{}       % preprecimo težave s številkami strani v kazalu
+    
+    % Include extended abstract [Razširjeni povzetek v slovenščini-- le za dela pisana v angleščini]
+    \ifSLO
+        % include Slovenian abstract
+        \input{front_pages/slo/povzetek}
+        % include English abstract
+        \input{front_pages/eng/abstract}
+    \else
+        % include English abstract
+        \input{front_pages/eng/abstract}
+        % include Slovenian abstract
+        \input{front_pages/slo/povzetek}
+    
+      %  \cleardoublepage
+        \let\oldthesection=\thesection %Special section numbering for this chapter - remember default one
+        \let\oldthesubsection=\thesubsection
+        \renewcommand{\thesection}{\Roman{section}} %Special section numbering for this chapter
+        \renewcommand{\thesubsection}{\thesection.\Roman{subsection}}
+    
+        % set roman page numbering
+        \pagenumbering{roman}
+        % set slovene language
+        \selectlanguage{slovene}
+        % insert extended abstract
+        \input{extended_abstract}
+    
+        \let\thesection=\oldthesection % Restore default section numbering
+        \let\thesubsection=\oldthesubsection
+    \fi
+}
+
+% Primerno spremeni vrstni red kazala in povzetkov
+\ifPRESERNOVA
+    \inputabstracts
+    \inputcontents
+    \inputacronyms
 \else
-    % ENG: list of acronmys
-    \input{front_pages/eng/acronyms} \clearemptydoublepage
-\fi
-
-\frontmatter
-\pagestyle{frontmatter}
-\setcounter{page}{1} %
-\renewcommand{\thepage}{}       % preprecimo težave s številkami strani v kazalu
-
-% Include extended abstract [Razširjeni povzetek v slovenščini-- le za dela pisana v angleščini]
-\ifSLO
-    % include Slovenian abstract
-    \input{front_pages/slo/povzetek}
-    % include English abstract
-    \input{front_pages/eng/abstract}
-\else
-    % include English abstract
-    \input{front_pages/eng/abstract}
-    % include Slovenian abstract
-    \input{front_pages/slo/povzetek}
-
-  %  \cleardoublepage
-    \let\oldthesection=\thesection %Special section numbering for this chapter - remember default one
-    \let\oldthesubsection=\thesubsection
-    \renewcommand{\thesection}{\Roman{section}} %Special section numbering for this chapter
-    \renewcommand{\thesubsection}{\thesection.\Roman{subsection}}
-
-    % set roman page numbering
-    \pagenumbering{roman}
-    % set slovene language
-    \selectlanguage{slovene}
-    % insert extended abstract
-    \input{extended_abstract}
-
-    \let\thesection=\oldthesection % Restore default section numbering
-    \let\thesubsection=\oldthesubsection
+    \inputcontents
+    \inputacronyms
+    \inputabstracts
 \fi
 
 %----------------------------------------------------------------

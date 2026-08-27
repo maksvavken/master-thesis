@@ -1,0 +1,59 @@
+% ** Primerno izpolni z imenom mentorja **
+\newcommand{\presernovaText}{
+Delo je pripravljeno v skladu s Pravilnikom o podeljevanju Prešernovih nagrad študentom, pod mentorstvom 
+\mysupervisor 
+\ifdefined\mycosupervisor
+in \mycosupervisor
+\fi.
+\\ \textbf{!!POZOR!!! (ker avtomatski prevajalnik ne sklanja, morate mentorje ročno vpisati v front\_pages/PRESERNOVA\_title\_page.tex)}
+}
+
+\ifPROGRAMMM
+    \thispagestyle{empty}
+	\begin{center}
+        {\large\sc  Fakulteta za računalništvo in informatiko\\
+         Fakulteta za Elektrotehniko}
+    	\vskip 10em
+        {\titlefont \ttitle \par}
+        \vskip 6em
+    	{\titlefont \ttitleEn \par}
+        \vskip 2em
+    	{\authorfont \tauthor \par}
+        \vskip 1em
+        {\presernovaText}
+        \vfill\null
+        {\large Ljubljana, \myyear \par}
+   \end{center}
+
+   \clearemptydoublepage
+\else
+    \thispagestyle{empty}
+	\begin{center}
+
+        {\large\sc Fakulteta za računalništvo in informatiko}
+    	\vskip 10em
+        {\titlefont \ttitle \par}
+        \vskip 8em
+    	{\titlefont \ttitleEn \par}
+        \vskip 2em
+    	{\authorfont \tauthor \par}
+        \vfill\null
+        {\large Ljubljana, \myyear \par}
+    \end{center}
+
+    \clearemptydoublepage
+	\begin{center}
+
+        {\large\sc Fakulteta za računalništvo in informatiko}
+    	\vskip 10em
+        {\titlefont \ttitle \par}
+        \vskip 6em
+    	{\titlefont \ttitleEn \par}
+        \vskip 2em
+    	{\authorfont \tauthor \par}
+        \vskip 1em
+        {\presernovaText}
+        \vfill\null
+        {\large Ljubljana, \myyear \par}
+    \end{center}
+\fi
